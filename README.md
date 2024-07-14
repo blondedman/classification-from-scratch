@@ -1,2 +1,2 @@
 # classification-from-scratch
- knn from scratch
+<p>building the knn classifier from scratch</p>
