@@ -43,7 +43,7 @@ result = k_n_n(dataset, new_features, k=3)
 
 print(result)
 
-df = pd.read_csv(r"C:\Users\HP\Desktop\ai-ml\classification\breast-cancer-wisconsin.data")
+df = pd.read_csv(r"C:\Users\HP\Desktop\projects\machine-learning\classification-from-scratch\breast-cancer-wisconsin.data")
 df.replace('?',-99999,inplace=True)
 df.drop(['id'],axis=1,inplace=True)
 

@@ -2,7 +2,7 @@ from sklearn import preprocessing, model_selection, neighbors
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv('data/breast-cancer-wisconsin.data')
+df = pd.read_csv(r"C:\Users\HP\Desktop\projects\machine-learning\classification-from-scratch\breast-cancer-wisconsin.data")
 df.replace('?',-99999,inplace=True)
 df.drop(['id'],axis=1,inplace=True)
 
