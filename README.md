@@ -1,2 +1,2 @@
 # classification-from-scratch
-<p>building the knn classifier from scratch</p>
+<p>building the knn (k nearest neighbours) classifier from scratch</p>
