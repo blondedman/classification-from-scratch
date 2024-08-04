@@ -1,6 +1,6 @@
 suppressPackageStartupMessages(library(tidyverse))
 
-data <- read_csv('R/k-nearest-neighbors/breast-cancer-wisconsin.csv', show_col_types = FALSE) # nolint
+data <- read_csv('R/breast-cancer-wisconsin/breast-cancer-wisconsin.csv', show_col_types = FALSE) # nolint
 
 data <- subset(data, select = -c(id))
 
