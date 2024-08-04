@@ -16,8 +16,7 @@ data[is.na(data)] <- -99999
 
 head(data, 5)
 
-
-library(caTools)
+suppressPackageStartupMessages(library(caTools))
 set.seed(255)
 
 split <- sample.split(data$class, SplitRatio = 0.2)
@@ -27,16 +26,17 @@ test <- subset(data, split == FALSE)
 scaled_train <- scale(train[,1:10])
 scaled_test <- scale(test[,1:10])
 
-library(class)
-predict <- knn(
+suppressPackageStartupMessages(library(class))
+
+predictions <- knn(
   train = scaled_train,
   test = scaled_test,
   cl = train$class,
-  k=1
+  k = 1
 )
 
 actual <- test$class
-cm <- table(actual,predict)
+cm <- table(actual, predictions)
 cm
 
 accuracy <- sum(diag(cm))/length(actual)*100 
