@@ -19,7 +19,7 @@ head(data, 5)
 suppressPackageStartupMessages(library(caret))
 set.seed(255)
 
-data$class <- factor(data$class, levels = c(0, 1))
+data$class <- factor(data$class, levels = c(2, 4))
 
 index <- createDataPartition(data$class, times = 1, p = 0.8, list = FALSE)
 
