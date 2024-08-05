@@ -10,8 +10,10 @@ import random
 style.use('fivethirtyeight')
 
 """""
-dataset = {'k':[[1,2],[2,3],[3,1]],
-           'r':[[6,5],[7,7],[8,6]]}
+dataset = {
+            'k':[[1,2],[2,3],[3,1]],
+            'r':[[6,5],[7,7],[8,6]]
+        }
 
 new_features = [5,7]
 
@@ -21,7 +23,7 @@ plt.show()
 
 """""
 
-def k_n_n(data, predict, k=3):
+def knn(data, predict, k=3):
     if len(data) >= k:
         warnings.warn('idiot')
     
@@ -71,7 +73,7 @@ total = 0
 
 for group in test_set:
     for data in test_set[group]:
-        vote,confidence = k_n_n(train_set,data,k=10)
+        vote,confidence = knn(train_set,data,k=10)
         if group == vote:
             correct += 1
         else:
