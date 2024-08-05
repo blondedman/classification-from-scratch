@@ -25,10 +25,10 @@ knn <- function(data, predict, k=3) {
     arrange(V1)
   
   votes <- distances[1:k, 2]
-  cat('votes: ', votes, '\n')
+  # cat('votes: ', votes, '\n')
   
   result <- names(table(votes))[which.max(table(votes))]
-  cat('result: ', result, '\n')
+  # cat('result: ', result, '\n')
   
   confidence <- (max(table(votes))) / k
   
@@ -79,13 +79,13 @@ total <- 0
 
 for (group in names(test)) {
   for (data in test[[group]]) {
-    KNN <- knn(train, unlist(data), k=5)
+    KNN <- knn(train, unlist(data), k=10)
     RESULT <- KNN$result
     CONFIDENCE <- KNN$confidence
     if (group == RESULT) {
       correct <- correct + 1
     } else {
-      cat('confidence: ', confidence, '\n')
+      cat('confidence: ', CONFIDENCE, '\n')
     }
     total <- total + 1
   }

@@ -77,7 +77,7 @@ for group in test_set:
         if group == vote:
             correct += 1
         else:
-            print(confidence)
+            print('confidence: ', confidence)
         total += 1
 
 print('accuracy: ', correct/total)
