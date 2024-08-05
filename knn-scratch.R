@@ -2,6 +2,9 @@ suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(stringr))
 
+
+# defining the knn classifier
+
 knn <- function(data, predict, k=3) {
   
   if (length(data) >= k) {
@@ -27,3 +30,27 @@ knn <- function(data, predict, k=3) {
   
   return(list(result = result, confidence = confidence))
 }
+
+# loading the dataset
+
+df <- read.csv('R/breast-cancer-wisconsin/breast-cancer-wisconsin.csv',
+               stringsAsFactors = FALSE,
+               na.strings = "?") # nolint
+
+
+# preprocessing the data
+
+df <- df %>% 
+  replace(is.na(.), -99999) %>%
+  select(-id)
+
+df <- df %>%
+  mutate_all(as.numeric) %>%
+  as.data.frame()
+
+df_list <- split(df, seq(nrow(df)))           # splitting 
+df_list <- df_list[sample(length(df_list))]   # shuffling
+
+split <- 0.2 # split ratio
+train <- list('2' = list(), '4' = list())
+test <- list('2' = list(), '4' = list())
