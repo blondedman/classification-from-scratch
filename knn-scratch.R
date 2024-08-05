@@ -25,8 +25,12 @@ knn <- function(data, predict, k=3) {
     arrange(V1)
   
   votes <- distances[1:k, 2]
-  result <- as.character(sort(table(votes), decreasing = TRUE)[1])
-  confidence <- as.numeric(max(table(votes))) / k
+  cat('votes: ', votes, '\n')
+  
+  result <- names(table(votes))[which.max(table(votes))]
+  cat('result: ', result, '\n')
+  
+  confidence <- (max(table(votes))) / k
   
   return(list(result = result, confidence = confidence))
 }
@@ -54,3 +58,37 @@ df_list <- df_list[sample(length(df_list))]   # shuffling
 split <- 0.2 # split ratio
 train <- list('2' = list(), '4' = list())
 test <- list('2' = list(), '4' = list())
+
+train_data <- df_list[1:(length(df_list) - floor(split * length(df_list)))]
+test_data <- df_list[(length(df_list) - floor(split * length(df_list)) + 1):length(df_list)]
+
+# populate the train set
+
+for (i in train_data) {
+  train[[as.character(i$class)]] <- append(train[[as.character(i$class)]], list(i[-ncol(i)]))
+}
+
+# populate the test set
+
+for (i in test_data) {
+  test[[as.character(i$class)]] <- append(test[[as.character(i$class)]], list(i[-ncol(i)]))
+}
+
+correct <- 0
+total <- 0
+
+for (group in names(test)) {
+  for (data in test[[group]]) {
+    KNN <- knn(train, unlist(data), k=5)
+    RESULT <- KNN$result
+    CONFIDENCE <- KNN$confidence
+    if (group == RESULT) {
+      correct <- correct + 1
+    } else {
+      cat('confidence: ', confidence, '\n')
+    }
+    total <- total + 1
+  }
+}
+
+cat('accuracy: ', correct / total, '\n')
