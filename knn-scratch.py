@@ -1,11 +1,10 @@
 from collections import Counter
-import matplotlib.pyplot as plt
 from matplotlib import style
-from math import sqrt
 import pandas as pd
 import numpy as np 
 import warnings
 import random
+import os
 
 style.use('fivethirtyeight')
 
@@ -45,35 +44,38 @@ def knn(data, predict, k=3):
     return vote_result,confidence
 
 # loading the dataset 
-df = pd.read_csv(r"C:\Users\HP\Desktop\projects\machine-learning\k-nearest-neighbors-from-scratch\breast-cancer-wisconsin.data")
-df.replace('?',-99999,inplace=True)
-df.drop(['id'],axis=1,inplace=True)
+df_path = os.path.dirname(os.path.abspath(__file__))
+df_file = os.path.join(df_path, "breast-cancer-wisconsin.data")
+
+df = pd.read_csv(df_file)
+df.replace('?', -99999, inplace=True)
+df.drop(['id'], axis=1, inplace=True)
 
 full_data = df.astype(float).values.tolist()
 
-print(full_data[:3])
+print(full_data[:2])
 random.shuffle(full_data)
-print(full_data[:3])
+print(full_data[:2])
 
 split = 0.2
-train_set = {2:[],4:[]}
-test_set = {2:[],4:[]}
+tr_set = {2:[],4:[]}
+ts_set = {2:[],4:[]}
 
-train_data = full_data[:-int(split*len(full_data))]
-test_data = full_data[-int(split*len(full_data)):]
+tr_data = full_data[ : -int(split * len(full_data))]
+ts_data = full_data[-int(split * len(full_data)) : ]
 
-for i in train_data:
-    train_set[i[-1]].append(i[:-1])
-    
-for i in test_data:
-    test_set[i[-1]].append(i[:-1])
+for i in tr_data:
+    tr_set[i[-1]].append(i[:-1])
 
-correct = 0
+for i in ts_data:
+    ts_set[i[-1]].append(i[:-1])
+
 total = 0
+correct = 0
 
-for group in test_set:
-    for data in test_set[group]:
-        vote,confidence = knn(train_set,data,k=10)
+for group in ts_set:
+    for data in ts_set[group]:
+        vote, confidence = knn(tr_set, data, k=10)
         if group == vote:
             correct += 1
         else:
