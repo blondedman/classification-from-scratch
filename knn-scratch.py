@@ -23,27 +23,27 @@ plt.show()
 """""
 
 def knn(data, predict, k=3):
-    if len(data) >= k:
-        warnings.warn('idiot')
-    
+    if sum(len(data[group]) for group in data) < k:
+        warnings.warn('not enough data points for k neighbors')
+        return None, None
+
     distances = []
     for group in data:
         for features in data[group]:
             # euclidean_distance = np.sqrt(np.sum((np.array(features)-np.array(predict))**2))
             euclidean_distance = np.linalg.norm(np.array(features)-np.array(predict))
             distances.append([euclidean_distance, group])
-            
-    votes = [i[1] for i in sorted(distances)[:k]]
+    
+    votes = [label for distance, label in sorted(distances)[:k]]
     
     vote_result = Counter(votes).most_common(1)[0][0]
     
     confidence = Counter(votes).most_common(1)[0][1] / k
         
-    # print(vote_result,confidence)
+    # print(vote_result, confidence)
     
-    return vote_result,confidence
+    return vote_result, confidence
 
-# loading the dataset 
 df_path = os.path.dirname(os.path.abspath(__file__))
 df_file = os.path.join(df_path, "breast-cancer-wisconsin.data")
 
@@ -52,8 +52,8 @@ df.replace('?', -99999, inplace=True)
 df.drop(['id'], axis=1, inplace=True)
 
 full_data = df.astype(float).values.tolist()
-
 print(full_data[:2])
+
 random.shuffle(full_data)
 print(full_data[:2])
 
@@ -75,7 +75,7 @@ correct = 0
 
 for group in ts_set:
     for data in ts_set[group]:
-        vote, confidence = knn(tr_set, data, k=10)
+        vote, confidence = knn(tr_set, data, k=5)
         if group == vote:
             correct += 1
         else:
